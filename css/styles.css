@@ -1,0 +1,271 @@
+    /* =========================================================
+       1. VARIABLES DE MARCA  (cambia colores aquí)
+       ========================================================= */
+    :root {
+      --vf-bg:        #0B0F19;   /* fondo base */
+      --vf-blue:      #0a0a8f;   /* azul eléctrico de la marca */
+      --vf-blue-deep: #070a3a;   /* azul marino profundo */
+      --vf-red:       #E60023;   /* rojo vivo */
+      --vf-magenta:   #ff2e6e;   /* magenta de apoyo */
+      --vf-white:     #ffffff;
+      --vf-gray:      #c9cde0;
+      --vf-card:      rgba(255,255,255,.05);
+      --vf-border:    rgba(255,255,255,.12);
+    }
+
+    /* =========================================================
+       2. BASE
+       ========================================================= */
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background:
+        radial-gradient(1200px 600px at 85% -10%, rgba(10,10,143,.55), transparent 60%),
+        radial-gradient(900px 500px at -10% 40%, rgba(230,0,35,.18), transparent 60%),
+        var(--vf-bg);
+      background-attachment: fixed;
+      color: var(--vf-gray);
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; color: var(--vf-white); }
+    section { padding: 100px 0; position: relative; }
+    .section-tag {
+      display: inline-block; font-size: .78rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--vf-red); font-weight: 600; margin-bottom: .6rem;
+    }
+    .section-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 1rem; }
+    .section-title span { color: var(--vf-red); }
+    .section-sub { max-width: 620px; margin: 0 auto 3rem; }
+
+    /* Botones de marca */
+    .btn-vf {
+      background: var(--vf-red); color: #fff; border: 2px solid var(--vf-red);
+      border-radius: 50px; padding: .8rem 2rem; font-weight: 600; letter-spacing: .02em;
+      transition: all .3s ease; box-shadow: 0 10px 30px -10px rgba(230,0,35,.7);
+    }
+    .btn-vf:hover { background: transparent; color: #fff; transform: translateY(-3px); box-shadow: 0 14px 34px -8px rgba(230,0,35,.8); }
+    .btn-vf-outline {
+      background: transparent; color: #fff; border: 2px solid var(--vf-border);
+      border-radius: 50px; padding: .8rem 2rem; font-weight: 600; transition: all .3s ease;
+    }
+    .btn-vf-outline:hover { border-color: #fff; background: #fff; color: var(--vf-blue-deep); transform: translateY(-3px); }
+
+    /* Animación de aparición al hacer scroll */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: .1s; } .reveal.d2 { transition-delay: .2s; } .reveal.d3 { transition-delay: .3s; }
+
+    /* =========================================================
+       3. NAVBAR (glassmorphism)
+       ========================================================= */
+    .navbar-vf {
+      background: rgba(11,15,25,.45);
+      backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border-bottom: 1px solid var(--vf-border);
+      transition: all .3s ease; padding: .9rem 0;
+    }
+    .navbar-vf.scrolled { background: rgba(7,10,58,.8); padding: .55rem 0; }
+    .logo-vf {
+      font-family: 'Chango', cursive; font-size: 1.6rem; color: #fff !important; letter-spacing: .02em;
+      text-shadow: 3px 3px 0 var(--vf-red);
+    }
+    .navbar-vf .nav-link { color: var(--vf-gray); font-weight: 500; margin: 0 .35rem; position: relative; transition: color .3s; }
+    .navbar-vf .nav-link::after {
+      content: ''; position: absolute; left: 50%; bottom: 2px; width: 0; height: 2px; background: var(--vf-red);
+      transition: all .3s ease; transform: translateX(-50%);
+    }
+    .navbar-vf .nav-link:hover, .navbar-vf .nav-link.active { color: #fff; }
+    .navbar-vf .nav-link:hover::after, .navbar-vf .nav-link.active::after { width: 70%; }
+    .navbar-toggler { border-color: var(--vf-border); }
+    .navbar-toggler:focus { box-shadow: none; }
+    @media (max-width: 991px) {
+      .navbar-collapse { background: rgba(7,10,58,.92); border-radius: 16px; padding: 1rem; margin-top: .8rem; }
+    }
+
+    /* =========================================================
+       4. HERO
+       ========================================================= */
+    #inicio { min-height: 100vh; display: flex; align-items: center; padding-top: 120px; overflow: hidden; }
+    .hero-panel {
+      position: absolute; top: 0; left: 0; bottom: 0; width: 28%;
+      background: linear-gradient(180deg, var(--vf-red), #b3001b);
+      opacity: .9; z-index: 0;
+      /* ESPACIO MULTIMEDIA - Puedes poner aquí una imagen de fondo (flores/arte de marca):
+         background-image: url('img/hero-lateral.jpg'); background-size: cover; mix-blend-mode: screen; */
+    }
+    .hero-panel::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(135deg, rgba(255,255,255,.07) 0 2px, transparent 2px 18px);
+    }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-title { font-size: clamp(2.6rem, 7vw, 5.2rem); font-weight: 800; line-height: 1.05; }
+    .hero-title .accent { color: var(--vf-red); display: inline-block; }
+    .hero-text { font-size: 1.15rem; max-width: 560px; }
+    .hero-visual {
+      /* Formato vertical 9:16, ampliado sin superar la altura visible del hero */
+      position: relative; z-index: 2; aspect-ratio: 9/16; width: min(100%, 400px, calc(88vh * 9 / 16)); margin: 0 auto;
+      border-radius: 28px; overflow: hidden; border: 1px solid var(--vf-border);
+      background: linear-gradient(160deg, var(--vf-blue), var(--vf-blue-deep));
+      box-shadow: 0 30px 80px -20px rgba(10,10,143,.9), 0 0 0 10px rgba(230,0,35,.15);
+      display: flex; align-items: center; justify-content: center; animation: float 6s ease-in-out infinite;
+    }
+    .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: var(--vf-blue-deep); }
+    .hero-sound {
+      position: absolute; right: 14px; bottom: 14px; z-index: 2; width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid var(--vf-border); background: rgba(7,10,58,.65); color: #fff; font-size: 1.15rem;
+      display: grid; place-items: center; cursor: pointer; padding: 0;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: all .3s ease;
+    }
+    .hero-sound:hover, .hero-sound:focus-visible { background: var(--vf-red); border-color: var(--vf-red); transform: scale(1.08); outline: none; }
+    .hero-sound.on { background: var(--vf-red); border-color: var(--vf-red); }
+    .hero-visual .rec {
+      position: absolute; top: 16px; left: 18px; display: flex; align-items: center; gap: .5rem;
+      font-size: .75rem; letter-spacing: .2em; color: #fff;
+      z-index: 2; pointer-events: none; text-shadow: 0 1px 6px rgba(0,0,0,.8);
+    }
+    .hero-visual .rec::before { content:''; width: 10px; height: 10px; border-radius: 50%; background: var(--vf-red); animation: blink 1.2s infinite; }
+    @keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-14px) } }
+    @keyframes blink { 50% { opacity: .2 } }
+    .scroll-hint { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 2; color: var(--vf-gray); font-size: 1.6rem; animation: float 2.5s infinite; }
+
+    /* =========================================================
+       5. PORTAFOLIO
+       ========================================================= */
+    .filter-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-bottom: 2.5rem; }
+    .filter-btn {
+      background: var(--vf-card); border: 1px solid var(--vf-border); color: var(--vf-gray);
+      border-radius: 50px; padding: .5rem 1.4rem; font-weight: 500; transition: all .3s;
+    }
+    .filter-btn:hover { color: #fff; border-color: var(--vf-red); }
+    .filter-btn.active { background: var(--vf-red); border-color: var(--vf-red); color: #fff; box-shadow: 0 8px 24px -8px rgba(230,0,35,.8); }
+    .portfolio-item { transition: opacity .4s ease, transform .4s ease; }
+    .portfolio-item.hide { opacity: 0; transform: scale(.85); pointer-events: none; position: absolute; visibility: hidden; }
+    .work-card {
+      position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--vf-blue), var(--vf-blue-deep));
+      border: 1px solid var(--vf-border); cursor: pointer; transition: transform .4s ease, box-shadow .4s ease;
+    }
+    .work-card.tall { aspect-ratio: 9/14; } /* formato vertical para Reels */
+    .work-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -15px rgba(230,0,35,.55); }
+    .work-media { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .work-media img, .work-media video, .work-media iframe { width: 100%; height: 100%; object-fit: cover; border: 0; }
+    .work-media .ph-icon { font-size: 3.4rem; color: rgba(255,255,255,.35); }
+    .work-overlay {
+      position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.4rem;
+      background: linear-gradient(0deg, rgba(7,10,58,.95) 0%, rgba(7,10,58,.2) 60%, transparent);
+      opacity: 0; transition: opacity .4s ease; pointer-events: none;
+    }
+    .work-card:hover .work-overlay { opacity: 1; }
+    .work-cat { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--vf-red); font-weight: 600; }
+    .work-overlay h5 { margin: .2rem 0 0; font-size: 1.15rem; }
+    .work-play {
+      position: absolute; top: 14px; right: 14px; width: 42px; height: 42px; border-radius: 50%;
+      background: var(--vf-red); display: grid; place-items: center; color: #fff; z-index: 2;
+      transform: scale(0); transition: transform .35s cubic-bezier(.3,1.6,.5,1);
+    }
+    .work-card:hover .work-play { transform: scale(1); }
+
+    /* =========================================================
+       6. EQUIPO
+       ========================================================= */
+    .team-card {
+      background: var(--vf-card); border: 1px solid var(--vf-border); border-radius: 22px; padding: 1.4rem 1.2rem 1.6rem;
+      text-align: center; height: 100%; transition: all .4s ease; position: relative; overflow: hidden;
+    }
+    .team-card::before {
+      content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, var(--vf-red), var(--vf-blue));
+      opacity: 0; transition: opacity .4s ease; z-index: 0;
+    }
+    .team-card > * { position: relative; z-index: 1; }
+    .team-card:hover { transform: translateY(-10px) rotate(-.6deg); border-color: transparent; box-shadow: 0 25px 50px -20px rgba(230,0,35,.6); }
+    .team-card:hover::before { opacity: .9; }
+    .team-photo {
+      width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 1rem; overflow: hidden;
+      background: linear-gradient(135deg, var(--vf-blue), var(--vf-blue-deep)); border: 3px solid var(--vf-red);
+      display: grid; place-items: center; font-family: 'Chango', cursive; font-size: 2.2rem; color: #fff;
+      transition: transform .4s ease;
+    }
+    .team-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .team-card:hover .team-photo { transform: scale(1.08); border-color: #fff; }
+    .team-card h5 { font-size: 1.1rem; margin-bottom: .2rem; }
+    .team-role { font-size: .85rem; color: var(--vf-gray); margin-bottom: 1rem; }
+    .team-card:hover .team-role { color: #fff; }
+    .social-mini a {
+      display: inline-grid; place-items: center; width: 36px; height: 36px; margin: 0 .15rem; border-radius: 50%;
+      background: rgba(255,255,255,.1); color: #fff; transition: all .3s; text-decoration: none;
+    }
+    .social-mini a:hover { background: #fff; color: var(--vf-red); transform: translateY(-3px); }
+
+    /* =========================================================
+       7. FORMULARIOS (buzón y contacto)
+       ========================================================= */
+    .form-card { background: var(--vf-card); border: 1px solid var(--vf-border); border-radius: 24px; padding: 2.2rem; backdrop-filter: blur(8px); }
+    .form-control, .form-select {
+      background: rgba(255,255,255,.06); border: 1px solid var(--vf-border); color: #fff; border-radius: 12px; padding: .8rem 1rem;
+    }
+    .form-control::placeholder { color: rgba(201,205,224,.55); }
+    .form-control:focus, .form-select:focus {
+      background: rgba(255,255,255,.1); color: #fff; border-color: var(--vf-red); box-shadow: 0 0 0 .2rem rgba(230,0,35,.25);
+    }
+    .form-select option { background: var(--vf-blue-deep); color: #fff; }
+    .form-label { font-weight: 500; color: #fff; font-size: .9rem; }
+    .invalid-feedback { font-size: .8rem; }
+    /* Valoración con estrellas */
+    .star-rating { display: inline-flex; flex-direction: row-reverse; gap: .2rem; }
+    .star-rating input { display: none; }
+    .star-rating label { font-size: 1.9rem; color: rgba(255,255,255,.25); cursor: pointer; transition: color .2s, transform .2s; }
+    .star-rating label:hover, .star-rating label:hover ~ label, .star-rating input:checked ~ label { color: #ffc107; }
+    .star-rating label:hover { transform: scale(1.2); }
+    .char-count { font-size: .75rem; text-align: right; color: var(--vf-gray); }
+
+    .info-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.4rem; }
+    .info-icon {
+      flex: 0 0 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font-size: 1.3rem; color: #fff;
+      background: linear-gradient(135deg, var(--vf-red), var(--vf-magenta));
+    }
+    .info-item h6 { color: #fff; margin: 0 0 .15rem; }
+    .info-item p { margin: 0; }
+    .social-big a {
+      display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; margin-right: .5rem;
+      background: var(--vf-card); border: 1px solid var(--vf-border); color: #fff; font-size: 1.2rem; transition: all .3s; text-decoration: none;
+    }
+    .social-big a:hover { background: var(--vf-red); border-color: var(--vf-red); transform: translateY(-5px) rotate(8deg); }
+
+    /* Toast flotante de éxito */
+    .toast-vf { background: linear-gradient(135deg, var(--vf-blue), var(--vf-blue-deep)); border: 1px solid var(--vf-red); color: #fff; border-radius: 16px; }
+
+    /* =========================================================
+       8. FOOTER
+       ========================================================= */
+    footer { background: var(--vf-blue-deep); border-top: 3px solid var(--vf-red); padding: 3rem 0 1.5rem; }
+    footer a { color: var(--vf-gray); text-decoration: none; transition: color .3s; }
+    footer a:hover { color: var(--vf-red); }
+    .footer-links { list-style: none; padding: 0; margin: 0; }
+    .footer-links li { margin-bottom: .4rem; }
+    .footer-bottom { border-top: 1px solid var(--vf-border); margin-top: 2rem; padding-top: 1.2rem; font-size: .85rem; }
+
+    /* Botón volver arriba */
+    #toTop {
+      position: fixed; right: 20px; bottom: 20px; width: 46px; height: 46px; border-radius: 50%; border: 0;
+      background: var(--vf-red); color: #fff; font-size: 1.2rem; z-index: 999; opacity: 0; pointer-events: none;
+      transition: all .3s; box-shadow: 0 10px 25px -8px rgba(230,0,35,.8);
+    }
+    #toTop.show { opacity: 1; pointer-events: auto; }
+    #toTop:hover { transform: translateY(-4px); }
+
+    @media (max-width: 767px) { section { padding: 70px 0; } .hero-panel { width: 18%; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } .reveal { opacity: 1; transform: none; } }
+
+    /* =========================================================
+       9. AJUSTES v2 (logo, foto grupal, redes)
+       ========================================================= */
+    .navbar-brand.logo-img { padding: 0; text-shadow: none; display: inline-flex; align-items: center; }
+    .navbar-brand.logo-img img { height: 40px; width: auto; display: block; transition: height .3s ease; }
+    .navbar-vf.scrolled .logo-img img { height: 32px; }
+    .footer-logo img { height: 56px; width: auto; display: block; }
+    .team-photo img { object-position: center; }
+    .team-photo { font-size: 0; }
+    .group-photo { margin: 4rem auto 0; max-width: 460px; text-align: center; }
+    .group-photo img { width: 100%; height: auto; border-radius: 22px; border: 1px solid var(--vf-border); display: block; }
+    .group-photo figcaption { margin-top: .8rem; font-size: .85rem; color: var(--vf-gray); }
+
