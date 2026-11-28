@@ -3,6 +3,114 @@
        ========================================================= */
     document.addEventListener('DOMContentLoaded', () => {
 
+      /* ---- Rastro fluido del puntero ---- */
+      const fluidCanvas = document.getElementById('fluid');
+      const fluidMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const finePointer = window.matchMedia('(pointer: fine)');
+      if (fluidCanvas instanceof HTMLCanvasElement && !fluidMotion.matches && finePointer.matches) {
+        const fluidContext = fluidCanvas.getContext('2d');
+        if (!fluidContext) {
+          console.warn('No se pudo inicializar el efecto de fluido: Canvas 2D no está disponible.');
+        } else {
+          const fluidConfig = {
+            DENSITY_DISSIPATION: 3.5,
+            SPLAT_RADIUS: 0.5,
+            SPLAT_FORCE: 6000,
+            COLOR_UPDATE_SPEED: 10,
+            MAX_DPR: 1.5
+          };
+          let width = 0;
+          let height = 0;
+          let lastPointer = null;
+          let lastActivity = 0;
+          let lastFrameTime = 0;
+          let frameId = 0;
+
+          function resizeFluidCanvas() {
+            const pixelRatio = Math.min(window.devicePixelRatio || 1, fluidConfig.MAX_DPR);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            fluidCanvas.width = Math.round(width * pixelRatio);
+            fluidCanvas.height = Math.round(height * pixelRatio);
+            fluidContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+            lastPointer = null;
+          }
+
+          function drawSplat(x, y, angle, speed, hue) {
+            const baseRadius = Math.min(68, Math.max(18, Math.min(width, height) * fluidConfig.SPLAT_RADIUS * .1));
+            const force = Math.min(2.2, 1 + speed / 80) * fluidConfig.SPLAT_FORCE / 6000;
+            const radius = baseRadius * force;
+
+            fluidContext.save();
+            fluidContext.translate(x, y);
+            fluidContext.rotate(angle);
+            fluidContext.scale(1 + Math.min(speed / 100, 1.2), .72);
+            const gradient = fluidContext.createRadialGradient(0, 0, 0, 0, 0, radius);
+            gradient.addColorStop(0, `hsla(${hue}, 100%, 72%, .28)`);
+            gradient.addColorStop(.35, `hsla(${(hue + 24) % 360}, 95%, 58%, .16)`);
+            gradient.addColorStop(1, `hsla(${hue}, 90%, 50%, 0)`);
+            fluidContext.fillStyle = gradient;
+            fluidContext.beginPath();
+            fluidContext.arc(0, 0, radius, 0, Math.PI * 2);
+            fluidContext.fill();
+            fluidContext.restore();
+          }
+
+          function animateFluid(now) {
+            const deltaTime = lastFrameTime ? Math.min((now - lastFrameTime) / 1000, .05) : 1 / 60;
+            lastFrameTime = now;
+            const fade = 1 - Math.exp(-fluidConfig.DENSITY_DISSIPATION * deltaTime);
+            fluidContext.globalCompositeOperation = 'destination-out';
+            fluidContext.fillStyle = `rgba(0, 0, 0, ${fade})`;
+            fluidContext.fillRect(0, 0, width, height);
+            fluidContext.globalCompositeOperation = 'source-over';
+
+            if (now - lastActivity > 2400) {
+              fluidContext.clearRect(0, 0, width, height);
+              frameId = 0;
+              lastFrameTime = 0;
+              return;
+            }
+            frameId = window.requestAnimationFrame(animateFluid);
+          }
+
+          function onPointerMove(event) {
+            if (event.pointerType === 'touch') return;
+            const point = { x: event.clientX, y: event.clientY };
+            const now = performance.now();
+            const hue = (now / 1000 * fluidConfig.COLOR_UPDATE_SPEED * 6) % 360;
+
+            if (lastPointer) {
+              const dx = point.x - lastPointer.x;
+              const dy = point.y - lastPointer.y;
+              const distance = Math.hypot(dx, dy);
+              const steps = Math.max(1, Math.ceil(distance / 12));
+              for (let step = 1; step <= steps; step++) {
+                const progress = step / steps;
+                drawSplat(
+                  lastPointer.x + dx * progress,
+                  lastPointer.y + dy * progress,
+                  Math.atan2(dy, dx),
+                  distance / steps,
+                  hue
+                );
+              }
+            } else {
+              drawSplat(point.x, point.y, 0, 0, hue);
+            }
+
+            lastPointer = point;
+            lastActivity = now;
+            if (!frameId) frameId = window.requestAnimationFrame(animateFluid);
+          }
+
+          resizeFluidCanvas();
+          window.addEventListener('resize', resizeFluidCanvas, { passive: true });
+          window.addEventListener('pointermove', onPointerMove, { passive: true });
+          window.addEventListener('blur', () => { lastPointer = null; });
+        }
+      }
+
       /* ---- Sonido de interacción de la interfaz ---- */
       const uiSound = new Audio('audio/soundeffectswitch.mp3');
       uiSound.preload = 'auto';
