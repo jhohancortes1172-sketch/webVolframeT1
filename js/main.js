@@ -4,7 +4,7 @@
     document.addEventListener('DOMContentLoaded', () => {
 
       /* ---- Sonido de interacción de la interfaz ---- */
-      const uiSound = new Audio('audio/Nintendo-Switch-Snap-Sound-Effect-_with-end-pad-for-editors_.mp3');
+      const uiSound = new Audio('audio/soundeffectswitch.mp3');
       uiSound.preload = 'auto';
       document.addEventListener('click', (event) => {
         const target = event.target;
