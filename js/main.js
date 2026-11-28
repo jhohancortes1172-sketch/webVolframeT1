@@ -3,6 +3,17 @@
        ========================================================= */
     document.addEventListener('DOMContentLoaded', () => {
 
+      /* ---- Sonido de interacción de la interfaz ---- */
+      const uiSound = new Audio('audio/Nintendo-Switch-Snap-Sound-Effect-_with-end-pad-for-editors_.mp3');
+      uiSound.preload = 'auto';
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element) || !target.closest('button, a[href], [role="button"], .work-card, .team-card, .star-rating label')) return;
+
+        uiSound.currentTime = 0;
+        uiSound.play().catch((error) => console.warn('No se pudo reproducir el sonido de la interfaz:', error));
+      });
+
       /* ---- Año automático en el footer ---- */
       document.getElementById('year').textContent = new Date().getFullYear();
 
