@@ -195,6 +195,66 @@
       background: rgba(255,255,255,.1); color: #fff; transition: all .3s; text-decoration: none;
     }
     .social-mini a:hover { background: #fff; color: var(--vf-red); transform: translateY(-3px); }
+    .contain-article {width: 100%; height: 800px; display: flex; justify-content: center; align-items: center;}
+    .group-photo {width: 50%; height: 100%;}
+    .article-group{display: flex; justify-content: center; align-items: center;}
+    .article-group h3 {
+      font-family: 'Syne', sans-serif; color: var(--vf-white);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.3;
+      font-weight: 800;
+      margin-bottom: 50px;
+    }
+    .article-group p {
+      line-height: 1.6;
+      margin-bottom: 50px;
+    }
+    .article-group span {
+      font-family: 'Syne', sans-serif; color: var(--vf-red);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+    }
+    .group-photo figure img {
+      width: 100%;
+    }
+    .btn-conect {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40%;
+      height: 70px;
+      border: 1px solid var(--vf-white);
+      font-weight: 700;
+      font-size: 22px;
+      background-color: #E60023;
+      border-radius: 35px;
+      transition: all .3s ease;
+      box-shadow: 0 10px 30px -10px rgba(230, 0, 35, .7);
+    }
+
+    .btn-conect:hover {
+      background-color: transparent;
+      transform: translateY(-3px);
+      border: none;
+      box-shadow: 0 14px 34px -8px rgba(230, 0, 35, .8);
+    }
+
+    .btn-conect p {
+      margin: 0;
+      font-size: 26px;
+      color: #c9cde0;
+      transition: color .3s ease;
+    }
+
+    .btn-conect:hover p {
+      color: var(--vf-white);
+    }
+
+    .group-photo figure {
+      width: 100%;
+      height: 100%;
+    }
+    .article-group {width: 50%; height: 100%; display: flex; justify-content: center; align-items: center;}
 
     /* =========================================================
        7. FORMULARIOS (buzón y contacto)
@@ -268,4 +328,54 @@
     .group-photo { margin: 4rem auto 0; max-width: 460px; text-align: center; }
     .group-photo img { width: 100%; height: auto; border-radius: 22px; border: 1px solid var(--vf-border); display: block; }
     .group-photo figcaption { margin-top: .8rem; font-size: .85rem; color: var(--vf-gray); }
+
+    @media (max-width: 991.98px) {
+      .row.g-5 { --bs-gutter-x: 1.5rem; }
+
+      .contain-article {
+        height: auto;
+        flex-direction: column;
+        gap: 2rem;
+      }
+      .contain-article > .group-photo {
+        width: 100%;
+        height: auto;
+        margin: 2rem auto 0;
+      }
+      .contain-article .group-photo figure {
+        height: auto;
+        margin: 0 auto;
+      }
+      .contain-article .article-group {
+        width: 100%;
+        height: auto;
+        padding: 0;
+      }
+      .contain-article .article-group article {
+        width: 100%;
+        min-width: 0;
+      }
+      .contain-article .article-group h3 { margin-bottom: 1.5rem; }
+      .contain-article .article-group p { margin-bottom: 2rem; }
+      .btn-conect {
+        width: auto;
+        max-width: 100%;
+        padding: 0 1.5rem;
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      .section-title { font-size: clamp(1.6rem, 8vw, 2rem); }
+      .contain-article .article-group h3,
+      .contain-article .article-group span { font-size: clamp(1.75rem, 7vw, 2rem); }
+      .hero-title { font-size: clamp(2rem, 10vw, 2.6rem); }
+      .team-photo { width: min(100%, 130px); height: auto; aspect-ratio: 1; }
+      .filter-btn { padding: .5rem 1rem; }
+      .form-card { padding: 1.4rem; }
+    }
+
+    @media (hover: none) {
+      .work-overlay { opacity: 1; }
+      .work-play { transform: scale(1); }
+    }
 
